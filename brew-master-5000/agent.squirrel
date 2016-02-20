@@ -1,10 +1,4 @@
 // Set up outgoing request object
-//local slackMessage = "This%20is%20awesome%20guys"
-
-local webServiceHeaders = {}
- 
- 
- 
 
 function sendSlackMessage(message) {
 

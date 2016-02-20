@@ -1,0 +1,44 @@
+// Set up outgoing request object
+//local slackMessage = "This%20is%20awesome%20guys"
+
+local webServiceHeaders = {}
+ 
+ 
+ 
+
+function sendSlackMessage(message) {
+
+    local slackChannel = "C0N6GRZB2" // imp-test-channel
+    local slackToken = "CHANGE-ME"
+    local slackMessage = message
+    
+    local slackWsURL = "https://slack.com/api/chat.postMessage?token=" + slackToken + "&channel=" + slackChannel + "&text=" + slackMessage
+
+    local request = http.get(slackWsURL, {})
+    // Send the request asynchronously. This will not block the imp CPU
+    server.log ("message: " + message)
+    request.sendasync(handleSlackResponse);
+}
+ 
+// Define the response handler
+// Called when the imp receives a response from the remote service
+function handleSlackResponse(responseTable) {
+    if (responseTable.statuscode == 200) {
+        // Do Nothing
+    } else {
+        // Log an error
+        server.log("Error response: " + responseTable.statuscode);
+    }
+}
+
+function buttonPressHandler(message) {
+    sendSlackMessage(message)
+}
+
+
+function buttonReleaseHandler(message) {
+    sendSlackMessage(message)
+} 
+
+device.on("buttonPress", buttonPressHandler)
+device.on("buttonRelease", buttonReleaseHandler)

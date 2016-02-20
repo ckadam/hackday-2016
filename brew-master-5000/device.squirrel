@@ -1,0 +1,39 @@
+// Alias the GPIO pin as 'button'
+buttonA <- hardware.pin1;
+buttonB <- hardware.pin8;
+
+pinA <- hardware.pin2;
+pinB <- hardware.pin9;
+ 
+function buttonPress(button, buttonId) {
+    local state = button.read();
+    if (state == 1) {
+        // The button is released
+        server.log("Release");
+        agent.send("buttonRelease", "[Floor-7:" + buttonId + "]:%20Open%20season");
+    } else {
+        // The button is pressed
+        server.log("Press");
+        agent.send("buttonRelease", "[Floor-7:" + buttonId + "]:%20Boom!%20Its%20going%20down");
+    }
+}
+
+function buttonPressA() {
+    buttonPress(buttonA, "Stall-1")
+}
+
+function buttonPressB() {
+    buttonPress(buttonB, "Stall-2")
+}
+
+
+ 
+// Configure the button to call buttonPress() when the pin's state changes
+buttonA.configure(DIGITAL_IN_PULLUP, buttonPressA);
+buttonB.configure(DIGITAL_IN_PULLUP, buttonPressB);
+
+pinA.configure(DIGITAL_OUT, 0);
+pinA.write(1);
+
+pinB.configure(DIGITAL_OUT, 0);
+pinB.write(1);

@@ -25,8 +25,6 @@ function buttonPressA() {
 function buttonPressB() {
     buttonPress(buttonB, "Stall-2")
 }
-
-
  
 // Configure the button to call buttonPress() when the pin's state changes
 buttonA.configure(DIGITAL_IN_PULLUP, buttonPressA);
